@@ -147,7 +147,7 @@ int main() {
             if (!is_empty(myQueue)) {
                 data = peek(myQueue);
                 dequeue(myQueue);
-                printf("Dequeued %c\n", data);
+                printf("Dequeued front one\n", data);
             }
             else {
                 printf("Queue is empty\n");
