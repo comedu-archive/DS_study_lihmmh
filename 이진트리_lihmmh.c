@@ -1,5 +1,5 @@
-//일단 create랑 insert_node, print_bst까지만 만들었음
-//다른건 나중에 추가할게요...
+//delete_node 하나 남기고 웬만한 기능 구현은 다했는데
+//얜 진짜 오래걸릴거 같아서 다음에 할게요..
 
 #include <stdio.h>
 #include <string.h>
@@ -76,7 +76,7 @@ void print_bst(node* parent) {
         printf("NO DATA");
     }
     else {
-        
+
         printf("%d", parent->key);
         if (parent->left != NULL || parent->right != NULL)
         {
@@ -89,20 +89,89 @@ void print_bst(node* parent) {
                 print_bst(parent->right);
             }
             printf(")");
-            
+
         }
-        
+
     }
 }
-   
+
+void inorder_traversal(node* parent) {
+    if (parent == NULL) {
+        return;
+    }
+    inorder_traversal(parent->left);
+    printf("%d ", parent->key);  
+    inorder_traversal(parent->right);
+}
+
+void right_root_left_traversal(node* parent) {
+    if (parent == NULL) {
+        return;
+    }
+    right_root_left_traversal(parent->right);
+    printf("%d ", parent->key);
+    right_root_left_traversal(parent->left);
+}
+
+void get_min(node* parent) {
+    if (parent->left == NULL) {
+        printf("%d", parent->key);
+        return;
+    }
+    get_min(parent->left);
+}
+
+void get_max(node* parent) {
+    if (parent->right == NULL) {
+        printf("%d", parent->key);
+        return;
+    }
+    get_min(parent->right);
+}
+int get() {
+    int a;
+    printf("which data are you looking for?");
+    scanf_s("%d", &a);
+    return a;
+}
+
+void find_node(node* parent, int node_value) {
+    if (parent->key == node_value) {
+        return;
+    }
+    else if (parent->key > node_value) {
+        if (parent->left == NULL) {
+            printf("NOT EXIST!");
+            return;
+        }
+        printf("left ");
+        find_node(parent->left, node_value);
+    }
+    else if (parent->key < node_value) {
+        if (parent->right == NULL) {
+            printf("NOT EXIST!");
+            return;
+        }
+        printf("right ");
+        find_node(parent->right, node_value);
+    }
+}
+delete_node(node* parent,int node) {
+    
+}
 int main() { // 메인함수 그냥 내가 대충 만듦
     bst* the_bst = create_bst();
     int pick;
     while (1) {
 
-        printf("select the menu:\n");
+        printf("\nselect the menu:\n");
         printf("1.insert data in the bst\n");
         printf("2.print the bst\n");
+        printf("3.inorder the bst\n");
+        printf("4.right_root_left_traversal\n");
+        printf("5.get min\n");
+        printf("6.get max\n");
+        printf("7.find node\n");
         scanf_s("%d", &pick);
 
         switch (pick)
@@ -114,7 +183,7 @@ int main() { // 메인함수 그냥 내가 대충 만듦
             insert_node(the_bst, data);
             printf("(");
             print_bst(the_bst->parent);
-            printf(")");
+            printf(")\n");
             break;
 
         case 2:
@@ -122,9 +191,26 @@ int main() { // 메인함수 그냥 내가 대충 만듦
             printf("the bst:");
             printf("(");
             print_bst(the_bst->parent);
-            printf(")");
+            printf(")\n");
             break;
-
+        case 3:
+            inorder_traversal(the_bst->parent);
+            break;
+        case 4:
+            right_root_left_traversal(the_bst->parent);
+            break;
+        case 5:
+            get_min(the_bst->parent);
+            break;
+        case 6:
+            get_max(the_bst->parent);
+            break;
+        case 7:
+            int a = get(); // 이거 원래 이렇게 하면 안되거든요?
+            //근데 메인함수 좀만 고치면 바로 해결되는 부분이라
+            //그냥 넘길게요
+            printf("root ");
+            find_node(the_bst->parent, a);
         default:
             break;
         }
